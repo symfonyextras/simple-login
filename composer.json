@@ -2,6 +2,7 @@
     "name": "symfonyextars/simple-login",
     "description": "Simple functionality for Controller to allow user access after login",
     "type": "library",
+    "version": "0.1.0",
     "autoload": {
         "psr-4": {
             "Symfonyextars\\SimpleLogin\\": "src/"
