@@ -27,7 +27,7 @@ class Storage
     public function store(SimpleLoginUser $user): ?string
     {
         $hash = Hash::get(true);
-        file_put_contents($this->pathTo($hash), sprintf('%s\t%s', $user->getUsername(), date('Y-m-d H:i:s')));
+        file_put_contents($this->pathTo($hash), sprintf("%s\t%s", $user->getUsername(), date('Y-m-d H:i:s')));
         return $hash;
     }
 
