@@ -1,5 +1,5 @@
 {
-    "name": "symfonyextars/simple-login",
+    "name": "symfonyextras/simple-login",
     "description": "Simple functionality for Controller to allow user access after login",
     "type": "library",
     "version": "0.1.0",
