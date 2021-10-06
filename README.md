@@ -3,7 +3,7 @@ Simple Login Controller
 
 Functionality for small projects allowing to have small set of users which are allowed to access some part of the system.
 
-##Examples
+## Examples
 
 ### Controller for login/logut
 
