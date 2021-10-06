@@ -34,9 +34,8 @@ class SimpleLoginService
      */
     public function validate($login, $hash): bool
     {
-        // TODO: shall be done
         if ($user = $this->dataLoader->findByLogin($login)) {
-            $this->storage->valid($hash, $user);
+            return $this->storage->valid($hash, $user);
         }
         return false;
     }
