@@ -1,0 +1,17 @@
+[
+  {
+    "login": "admin",
+    "pass": "admin",
+    "roles": [
+      "ROLE_USER",
+      "ROLE_ADMIN"
+    ]
+  },
+  {
+    "login": "userA",
+    "pass": "usera",
+    "roles": [
+      "ROLE_USER"
+    ]
+  }
+]

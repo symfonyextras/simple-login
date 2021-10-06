@@ -1,0 +1,3 @@
+services:
+  sfex_login_service:
+    class: Symfonyextras\

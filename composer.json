@@ -1,0 +1,29 @@
+{
+    "name": "symfonyextars/simple-login",
+    "description": "Simple functionality for Controller to allow user access after login",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Symfonyextars\\SimpleLogin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "przemo",
+            "email": "pziemo@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.3",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "symfony/http-foundation": "^5.3",
+        "symfony/security-core": "^5.3",
+        "symfony/security-http": "^5.3",
+        "symfony/dependency-injection": "^5.3",
+        "symfony/config": "^5.3",
+        "symfony/yaml": "^5.3",
+        "ramsey/uuid": "^4.2",
+        "symfony/framework-bundle": "^5.3"
+    }
+}
