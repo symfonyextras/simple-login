@@ -30,7 +30,7 @@ class DataLoader
 
     public function findByLogin(string $login): ?SimpleLoginUser
     {
-        return $this->userList[$login] ?? null;
+        return $this->usersList[$login] ?? null;
     }
 
     /**
@@ -47,7 +47,7 @@ class DataLoader
                     //login should be present
                     if (isset($userData['login'])) {
                         //password as well with minimum of 4 chars
-                        if (isset($userData['pass']) && strlen($userData) >= 4) {
+                        if (isset($userData['pass']) && strlen($userData['pass']) >= 4) {
                             //inform about duplicated entries
                             if (!isset($list[$userData['login']])) {
                                 $list[$userData['login']] = new SimpleLoginUser($userData);
