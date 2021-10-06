@@ -9,9 +9,15 @@ class SimpleLoginUser implements UserInterface
 {
     public function __construct($d = [])
     {
-        $this->username = $d['login'];
-        $this->roles = $d['roles'];
-        $this->pass = Hash::encrypt($this->getSalt(), $d['pass']);
+        if (is_object($d) && get_class($d) === get_class($this)) {
+            $this->username = $d->getUsername();
+            $this->roles = $d->getRoles();
+            $this->pass = $d->getPassword();
+        } else {
+            $this->username = $d['login'];
+            $this->roles = $d['roles'];
+            $this->pass = Hash::encrypt($this->getSalt(), $d['pass']);
+        }
     }
 
     public function isValidPassword(string $rawPass): bool
