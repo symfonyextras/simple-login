@@ -28,7 +28,7 @@ class LoginChecker implements LoginCheckerInterface
         $login = $session->get(SimpleLoginService::SESSION_LOGIN, null);
         $hash = $session->get(SimpleLoginService::SESSION_HASH, null);
 
-        return $this->loginService->validate($login, $hash);
+        return ($login && $hash) && $this->loginService->validate($login, $hash);
     }
 
     /**
