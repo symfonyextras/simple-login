@@ -1,3 +1,8 @@
+parameters:
+  sfex_user_list: '/data/user_list.json'
+
 services:
   sfex_login_service:
-    class: Symfonyextras\
+    class: Symfonyextars\SimpleLogin\Service\SimpleLoginService
+  sfex_login_check:
+    class: Symfonyextars\SimpleLogin\Service\LoginChecker
