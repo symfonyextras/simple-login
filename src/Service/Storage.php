@@ -31,6 +31,11 @@ class Storage
         return $hash;
     }
 
+    public function remove($hash): bool
+    {
+        return unlink($this->pathTo($hash));
+    }
+
     public function valid($hash, SimpleLoginUser $user): bool
     {
         if ($this->has($hash)) {

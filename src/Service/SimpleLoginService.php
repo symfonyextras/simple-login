@@ -64,4 +64,18 @@ class SimpleLoginService
         }
         return false;
     }
+
+    public function doLogout(SessionInterface $session)
+    {
+        $login = $session->get(self::SESSION_LOGIN);
+        $hash = $session->get(self::SESSION_HASH);
+        if ($login && $hash) {
+            if ($this->storage->has($hash)) {
+                // don't care if hash wasn't removed correctly
+                $this->storage->remove($hash);
+                $session->set(self::SESSION_LOGIN, '');
+                $session->set(self::SESSION_HASH, '');
+            }
+        }
+    }
 }
