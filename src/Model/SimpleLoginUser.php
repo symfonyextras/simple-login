@@ -55,7 +55,6 @@ class SimpleLoginUser implements UserInterface
         }
 
         return false;
-
     }
 
     public function getPassword()
