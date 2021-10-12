@@ -3,7 +3,7 @@
 namespace Symfonyextars\SimpleLogin\Model;
 
 use Symfony\Component\HttpFoundation\Request;
-use Symfonyextars\SimpleLogin\Service\SimpleLoginService;
+use Symfonyextars\SimpleLogin\Services\SimpleLoginService;
 
 class LoginData
 {

@@ -17,8 +17,8 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfonyextars\SimpleLogin\Service\LoginCheckerInterface;
-use Symfonyextars\SimpleLogin\Service\SimpleLoginService;
+use Symfonyextars\SimpleLogin\Services\LoginCheckerInterface;
+use Symfonyextars\SimpleLogin\Services\SimpleLoginService;
 
 /**
  * @Route("/auth")
@@ -82,7 +82,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfonyextars\SimpleLogin\Service\LoginCheckerInterface;
+use Symfonyextars\SimpleLogin\Services\LoginCheckerInterface;
 
 class ExampleUsageController extends AbstractController
 {

@@ -4,7 +4,7 @@ namespace Symfonyextars\SimpleLogin\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfonyextars\SimpleLogin\Model\SimpleLoginUser;
-use Symfonyextars\SimpleLogin\Service\LoginCheckerInterface;
+use Symfonyextars\SimpleLogin\Services\LoginCheckerInterface;
 
 trait ControllerWithLoginCheck
 {

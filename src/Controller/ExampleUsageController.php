@@ -4,7 +4,7 @@ namespace Symfonyextars\SimpleLogin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfonyextars\SimpleLogin\Service\LoginCheckerInterface;
+use Symfonyextars\SimpleLogin\Services\LoginCheckerInterface;
 
 class ExampleUsageController extends AbstractController
 {

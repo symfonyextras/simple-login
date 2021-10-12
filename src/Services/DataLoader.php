@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfonyextars\SimpleLogin\Service;
+namespace Symfonyextars\SimpleLogin\Services;
 
 use Exception;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;

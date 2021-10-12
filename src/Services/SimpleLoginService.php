@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfonyextars\SimpleLogin\Service;
+namespace Symfonyextars\SimpleLogin\Services;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;

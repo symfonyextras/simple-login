@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfonyextars\SimpleLogin\Service;
+namespace Symfonyextars\SimpleLogin\Services;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -108,8 +108,7 @@ class LoginChecker implements LoginCheckerInterface
     {
         $sessionData = $this->extractLoginHash($request);
         if ($sessionData->hasParams()) {
-            $this->loginService->doLogout($sessionData->getHash());
-            $this->clearSessionData();
+            $this->loginService->doLogout($request);
         }
     }
 }

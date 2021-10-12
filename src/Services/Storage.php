@@ -1,6 +1,6 @@
 <?php
 
-namespace Symfonyextars\SimpleLogin\Service;
+namespace Symfonyextars\SimpleLogin\Services;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfonyextars\SimpleLogin\Model\SimpleLoginUser;
