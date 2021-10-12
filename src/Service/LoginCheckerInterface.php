@@ -14,4 +14,6 @@ interface LoginCheckerInterface
     public function isValidSession(Request $request): bool;
     public function validateUser($login, $pass): ?SimpleLoginUser;
     public function doLogin(SimpleLoginUser $user, SessionInterface $session): bool;
+    public function extractSimpleLoginUser(Request $request): ?SimpleLoginUser;
+    public function handleSimpleLoginRequest(Request $request): ?SimpleLoginUser;
 }

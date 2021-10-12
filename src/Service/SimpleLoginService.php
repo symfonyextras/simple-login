@@ -3,11 +3,13 @@
 namespace Symfonyextars\SimpleLogin\Service;
 
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\User\InMemoryUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
+use Symfonyextars\SimpleLogin\Model\LoginData;
 use Symfonyextars\SimpleLogin\Model\SimpleLoginUser;
 
 class SimpleLoginService
@@ -55,6 +57,12 @@ class SimpleLoginService
         return $user->isValidPassword($password);
     }
 
+
+    public function extractLoginHash(Request $request): LoginData
+    {
+        return new LoginData($request);
+    }
+
     public function doLogin(SimpleLoginUser $user, SessionInterface $session): bool
     {
         if ($hash = $this->storage->store($user)) {
@@ -65,17 +73,22 @@ class SimpleLoginService
         return false;
     }
 
-    public function doLogout(SessionInterface $session)
+    public function doLogout(Request $request)
     {
-        $login = $session->get(self::SESSION_LOGIN);
-        $hash = $session->get(self::SESSION_HASH);
-        if ($login && $hash) {
-            if ($this->storage->has($hash)) {
-                // don't care if hash wasn't removed correctly
-                $this->storage->remove($hash);
-                $session->set(self::SESSION_LOGIN, '');
-                $session->set(self::SESSION_HASH, '');
-            }
+        $loginData = $this->extractLoginHash($request);
+        $hash = $loginData->getHash();
+        if ($hash && $this->storage->has($hash)) {
+            // don't care if hash wasn't removed correctly
+            $this->storage->remove($hash);
         }
+        $this->clearSessionData($request);
     }
+
+    public function clearSessionData(Request $request): void
+    {
+        $session = $request->getSession();
+        $session->remove(self::SESSION_LOGIN);
+        $session->remove(self::SESSION_HASH);
+    }
+
 }

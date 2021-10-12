@@ -36,15 +36,11 @@ trait ControllerWithLoginCheck
      */
     public function processLogin(Request $request): ?SimpleLoginUser
     {
-        if ($request->isMethod(Request::METHOD_POST)) {
-            $login = $request->get(LoginCheckerInterface::LOGIN_NAME, '');
-            $pass = $request->get(LoginCheckerInterface::LOGIN_PASS, '');
-            if ($user = $this->loginChecker->validateUser($login, $pass)) {
-                 if ($this->loginChecker->doLogin($user, $request->getSession())) {
-                     return $user;
-                 }
-            }
-        }
-        return null;
+        return $this->loginChecker->handleSimpleLoginRequest($request);
+    }
+
+    public function getSimpleLoginUser(Request $request): ?SimpleLoginUser
+    {
+        return $this->loginChecker->extractSimpleLoginUser($request);
     }
 }

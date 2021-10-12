@@ -4,31 +4,69 @@ namespace Symfonyextars\SimpleLogin\Service;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfonyextars\SimpleLogin\Model\LoginData;
 use Symfonyextars\SimpleLogin\Model\SimpleLoginUser;
 
 class LoginChecker implements LoginCheckerInterface
 {
+    /** @var SimpleLoginService */
     private $loginService;
+    /** @var DataLoader */
+    private $dataLoader;
 
-    public function __construct(SimpleLoginService $simpleLoginService)
+    public function __construct(SimpleLoginService $simpleLoginService, DataLoader $dataLoader)
     {
         $this->loginService = $simpleLoginService;
+        $this->dataLoader = $dataLoader;
     }
 
-    public function handleLoginRequest(Request  $request): ?SimpleLoginUser
+    /**
+     * Method used inside AbstractController to get user object
+     *
+     * @param Request $request
+     * @return SimpleLoginUser|null
+     */
+    public function extractSimpleLoginUser(Request $request): ?SimpleLoginUser
     {
-
+        $loginData = $this->extractLoginHash($request);
+        if ($loginData->hasParams()) {
+            return $this->dataLoader->findByLogin($loginData->getLogin()) ?? null;
+        }
         return null;
+    }
+
+    /**
+     * Process login used right from Request, executed inside `/login route` method
+     *
+     * @param Request $request
+     * @return SimpleLoginUser|null
+     */
+    public function handleSimpleLoginRequest(Request $request): ?SimpleLoginUser
+    {
+        if ($request->isMethod(Request::METHOD_POST)) {
+            $login = $request->get(LoginCheckerInterface::LOGIN_NAME, null);
+            $pass = $request->get(LoginCheckerInterface::LOGIN_PASS, null);
+            if (($login && $pass) &&
+                $simpleLoginUser = $this->validateUser($login, $pass)) {
+                $this->doLogin($simpleLoginUser, $request->getSession());
+                return $simpleLoginUser;
+            }
+        }
+        return null;
+    }
+
+
+    private function extractLoginHash(Request $request): LoginData
+    {
+        return $this->loginService->extractLoginHash($request);
     }
 
     public function isValidSession(Request $request): bool
     {
-        $session = $request->getSession();
-        $login = $session->get(SimpleLoginService::SESSION_LOGIN, null);
-        $hash = $session->get(SimpleLoginService::SESSION_HASH, null);
+        $loginData = $this->extractLoginHash($request);
 
-        return ($login && $hash) && $this->loginService->validate($login, $hash);
+        return $loginData->hasParams() &&
+            $this->loginService->validate($loginData->getLogin(), $loginData->getHash());
     }
 
     /**
@@ -42,13 +80,10 @@ class LoginChecker implements LoginCheckerInterface
      */
     public function validateUser($login, $pass): ?SimpleLoginUser
     {
-        // TODO: shall be done
-        // todo: find using loginService user with given login and validate pass
-
         if ($user = $this->loginService->find($login)) {
-             if ($this->loginService->validatePassword($user, $pass)) {
-                 return $user;
-             }
+            if ($this->loginService->validatePassword($user, $pass)) {
+                return $user;
+            }
         }
 
         return null;
@@ -71,7 +106,10 @@ class LoginChecker implements LoginCheckerInterface
      */
     public function doLogout(Request $request): void
     {
-        // TODO: shall be done
-        // TODO: remove from store hash assigned for this request
+        $sessionData = $this->extractLoginHash($request);
+        if ($sessionData->hasParams()) {
+            $this->loginService->doLogout($sessionData->getHash());
+            $this->clearSessionData();
+        }
     }
 }
