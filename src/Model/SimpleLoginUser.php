@@ -7,6 +7,9 @@ use Symfonyextars\SimpleLogin\Utility\Hash;
 
 class SimpleLoginUser implements UserInterface
 {
+    const GRANTED_ANY = 'any';
+    const GRANTED_ALL = 'all';
+
     public function __construct($d = [])
     {
         if (is_object($d) && get_class($d) === get_class($this)) {
@@ -28,6 +31,31 @@ class SimpleLoginUser implements UserInterface
     public function getRoles()
     {
         return $this->roles ?? ['ROLE_USER'];
+    }
+
+    public function isGranted(string $role): bool
+    {
+        return in_array($role, $this->getRoles());
+    }
+
+    public function areGranted(array $roles = [], $type = self::GRANTED_ALL): bool
+    {
+        $granted = 0;
+        foreach($roles as $role) {
+            if ($this->isGranted($role)) {
+                $granted++;
+            }
+        }
+
+        if ($type === self::GRANTED_ALL) {
+            return $granted === count($roles);
+        }
+        if ($type == self::GRANTED_ANY) {
+            return $granted > 0;
+        }
+
+        return false;
+
     }
 
     public function getPassword()
