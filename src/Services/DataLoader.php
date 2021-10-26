@@ -33,6 +33,13 @@ class DataLoader
         return $this->usersList[$login] ?? null;
     }
 
+    public function getUsersWithRole($role): array
+    {
+        return array_filter($this->usersList, static function (SimpleLoginUser $u) use ($role) {
+            return $u->isGranted($role);
+        });
+    }
+
     /**
      * @throws Exception
      */
