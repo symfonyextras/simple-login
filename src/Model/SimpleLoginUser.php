@@ -17,7 +17,7 @@ class SimpleLoginUser implements UserInterface
             $this->roles = $d->getRoles();
             $this->pass = $d->getPassword();
         } else {
-            $this->username = $d['login'];
+            $this->username = $d['username'];
             $this->roles = $d['roles'] ?? [];
             $this->pass = $d['pass'] ?? Hash::encrypt(Hash::get(), Hash::get());
         }
@@ -95,7 +95,7 @@ class SimpleLoginUser implements UserInterface
     public function toArray(): array
     {
         return [
-            'login' => $this->username,
+            'username' => $this->username,
             'pass' => $this->pass,
             'roles' => $this->roles
         ];

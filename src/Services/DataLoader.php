@@ -57,12 +57,12 @@ class DataLoader
                 $list = [];
                 foreach ($data as $userData) {
                     //login should be present
-                    if (isset($userData['login'])) {
+                    if (isset($userData['username'])) {
                         //password as well with minimum of 4 chars
                         if (isset($userData['pass']) && strlen($userData['pass']) >= 4) {
                             //inform about duplicated entries
-                            if (!isset($list[$userData['login']])) {
-                                $list[$userData['login']] = new SimpleLoginUser($userData);
+                            if (!isset($list[$userData['username']])) {
+                                $list[$userData['username']] = new SimpleLoginUser($userData);
                             } else {
                                 throw new Exception("duplicated login on user list");
                             }
@@ -89,7 +89,7 @@ class DataLoader
     public function saveData($data = [])
     {
         if ($userListPath = $this->getUserListFilePath()) {
-            file_put_contents($userListPath, json_encode($data));
+            file_put_contents($userListPath, json_encode(array_values($data)));
         }
     }
 }
