@@ -85,4 +85,11 @@ class DataLoader
         $filePath = $this->kernel->getProjectDir() . DIRECTORY_SEPARATOR . $this->userListPath;
         return file_exists($filePath) ? $filePath : null;
     }
+
+    public function saveData($data = [])
+    {
+        if ($userListPath = $this->getUserListFilePath()) {
+            file_put_contents($userListPath, json_encode($data));
+        }
+    }
 }

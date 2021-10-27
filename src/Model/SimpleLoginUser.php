@@ -18,8 +18,8 @@ class SimpleLoginUser implements UserInterface
             $this->pass = $d->getPassword();
         } else {
             $this->username = $d['login'];
-            $this->roles = $d['roles'];
-            $this->pass = Hash::encrypt($this->getSalt(), $d['pass']);
+            $this->roles = $d['roles'] ?? [];
+            $this->pass = $d['pass'] ?? Hash::encrypt(Hash::get(), Hash::get());
         }
     }
 
@@ -28,9 +28,19 @@ class SimpleLoginUser implements UserInterface
         return Hash::decrypt($this->getPassword(), $rawPass);
     }
 
+    public function setPassword($p)
+    {
+        $this->pass = $p;
+    }
+
     public function getRoles()
     {
         return $this->roles ?? ['ROLE_USER'];
+    }
+
+    public function setRoles($r)
+    {
+        $this->roles = $r;
     }
 
     public function isGranted(string $role): bool
@@ -41,7 +51,7 @@ class SimpleLoginUser implements UserInterface
     public function areGranted(array $roles = [], $type = self::GRANTED_ALL): bool
     {
         $granted = 0;
-        foreach($roles as $role) {
+        foreach ($roles as $role) {
             if ($this->isGranted($role)) {
                 $granted++;
             }
@@ -75,6 +85,20 @@ class SimpleLoginUser implements UserInterface
     public function getUsername()
     {
         return $this->username;
+    }
+
+    public function setUsername($u)
+    {
+        $this->username = $u;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'login' => $this->username,
+            'pass' => $this->pass,
+            'roles' => $this->roles
+        ];
     }
 
 }
