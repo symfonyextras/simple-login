@@ -89,7 +89,7 @@ class DataLoader
     public function saveData($data = [])
     {
         if ($userListPath = $this->getUserListFilePath()) {
-            file_put_contents($userListPath, json_encode(array_values($data)));
+            file_put_contents($userListPath, json_encode($data));
         }
     }
 }
