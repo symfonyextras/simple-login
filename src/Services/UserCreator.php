@@ -22,7 +22,7 @@ class UserCreator
             $newUser->setPassword(Hash::encrypt($newUser->getSalt(), $password));
 
             $this->dataLoader->saveData(array_merge(
-                $this->dataLoader->getUsers(), $newUser->toArray()
+                $this->dataLoader->getUsers(), [$newUser->getUsername() => $newUser->toArray()]
             ));
         }
     }
