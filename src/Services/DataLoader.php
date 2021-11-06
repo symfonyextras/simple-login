@@ -86,6 +86,14 @@ class DataLoader
         return file_exists($filePath) ? $filePath : null;
     }
 
+    public function updateData(SimpleLoginUser $user, $andSaveThem = false): void
+    {
+        $this->usersList[$user->getUsername()] = $user;
+        if ($andSaveThem) {
+            $this->saveData($this->getUsers());
+        }
+    }
+
     public function saveData($data = [])
     {
         if ($userListPath = $this->getUserListFilePath()) {

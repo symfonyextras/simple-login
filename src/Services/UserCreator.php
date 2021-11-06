@@ -20,10 +20,16 @@ class UserCreator
         if (!$user) {
             $newUser = new SimpleLoginUser(['username' => $login, 'roles' => $roles]);
             $newUser->setPassword(Hash::encrypt($newUser->getSalt(), $password));
+            $newUser->setPassword(self::passwordEncrypt($user, $password));
 
             $this->dataLoader->saveData(array_merge(
                 $this->dataLoader->getUsers(), [$newUser->getUsername() => $newUser->toArray()]
             ));
         }
+    }
+
+    public static function passwordEncrypt(SimpleLoginUser $user, $rawPassword): string
+    {
+        return Hash::encrypt($user->getSalt(), $rawPassword);
     }
 }
