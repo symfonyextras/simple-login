@@ -19,8 +19,7 @@ class UserCreator
         $user = $this->dataLoader->findByLogin($login);
         if (!$user) {
             $newUser = new SimpleLoginUser(['username' => $login, 'roles' => $roles]);
-            $newUser->setPassword(Hash::encrypt($newUser->getSalt(), $password));
-            $newUser->setPassword(self::passwordEncrypt($user, $password));
+            $newUser->setPassword(self::passwordEncrypt($newUser, $password));
 
             $this->dataLoader->saveData(array_merge(
                 $this->dataLoader->getUsers(), [$newUser->getUsername() => $newUser->toArray()]
