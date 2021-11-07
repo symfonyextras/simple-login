@@ -14,7 +14,7 @@ class UserCreator
         $this->dataLoader = $dataLoader;
     }
 
-    public function add(string $login, string $password, $roles = [], $attributes = [])
+    public function add(string $login, string $password, $roles = [], $attributes = []): SimpleLoginUser
     {
         $user = $this->dataLoader->findByLogin($login);
         if (!$user) {
@@ -24,7 +24,10 @@ class UserCreator
             $this->dataLoader->saveData(array_merge(
                 $this->dataLoader->getUsers(), [$newUser->getUsername() => $newUser->toArray()]
             ));
+            $user = $newUser;
         }
+
+        return $user;
     }
 
     public static function passwordEncrypt(SimpleLoginUser $user, $rawPassword): string
