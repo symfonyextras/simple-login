@@ -81,7 +81,10 @@ class LoginChecker implements LoginCheckerInterface
     public function validateUser($login, $pass): ?SimpleLoginUser
     {
         if ($user = $this->loginService->find($login)) {
-            if ($this->loginService->validatePassword($user, $pass)) {
+            if (
+                $user->canLogin() &&
+                $this->loginService->validatePassword($user, $pass)
+            ) {
                 return $user;
             }
         }
