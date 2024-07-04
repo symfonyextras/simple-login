@@ -125,7 +125,8 @@ class SimpleLoginUser implements UserInterface
         return [
             'username' => $this->username,
             'pass' => $this->pass,
-            'roles' => $this->roles
+            'roles' => $this->roles,
+            'activeUntil' => $this->activeUntil,
         ];
     }
 
