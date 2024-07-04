@@ -1,4 +1,4 @@
-Simple Login Controller
+Simple Login Controller.
 ======================
 
 Functionality for small projects allowing to have small set of users who are allowed to access some part of the system.
