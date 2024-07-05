@@ -10,17 +10,45 @@ class SimpleLoginUser implements UserInterface
     const GRANTED_ANY = 'any';
     const GRANTED_ALL = 'all';
 
+    private $username;
+    private $roles = [];
+    private $pass;
+    private $activeUntil;
+
     public function __construct($d = [])
     {
         if (is_object($d) && get_class($d) === get_class($this)) {
             $this->username = $d->getUsername();
             $this->roles = $d->getRoles();
             $this->pass = $d->getPassword();
+            $this->activeUntil = $d->getActiveUntil();
         } else {
             $this->username = $d['username'];
             $this->roles = $d['roles'] ?? [];
             $this->pass = $d['pass'] ?? Hash::encrypt(Hash::get(), Hash::get());
+            $this->activeUntil = $d['activeUntil'] ?? null;
         }
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function canLogin(): bool
+    {
+       if (!$this->activeUntil) {
+           return true;
+       }
+
+       $leaveDate = date_create($this->activeUntil);
+       if (false === $leaveDate) {
+           throw new \Exception("wrong format of activeUntil field of user");
+       }
+
+       if (time() >= $leaveDate->getTimestamp()) {
+           return false;
+       }
+
+       return true;
     }
 
     public function isValidPassword(string $rawPass): bool
@@ -97,8 +125,18 @@ class SimpleLoginUser implements UserInterface
         return [
             'username' => $this->username,
             'pass' => $this->pass,
-            'roles' => $this->roles
+            'roles' => $this->roles,
+            'activeUntil' => $this->activeUntil,
         ];
     }
 
+    public function getActiveUntil()
+    {
+        return $this->activeUntil;
+    }
+
+    public function setActiveUntil($activeUntil): void
+    {
+        $this->activeUntil = $activeUntil;
+    }
 }
